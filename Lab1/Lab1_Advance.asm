@@ -1,0 +1,36 @@
+List p=18f4520 ;???PIC18F4520
+    ;???PIC18F
+    #include<p18f4520.inc>
+        CONFIG OSC = INTIO67
+        CONFIG WDT = OFF
+        org 0x00 ; ???0x00???????
+CLRF WREG
+CLRF 0x000
+CLRF 0x001
+CLRF 0x002
+CLRF 0x003
+MOVLW 0x08
+MOVWF 0x005
+MOVLW 0xA6;user 0x000
+MOVWF 0x000
+MOVLW 0x79;user 0x001
+MOVWF 0x001
+MOVLW b'11110000'
+ANDWF 0x000, W
+MOVWF 0x002
+MOVLW b'00001111'
+ANDWF 0x001, W
+ADDWF 0x002, W
+MOVWF 0x002
+CLRF WREG
+
+    Loop: 
+    BTFSS 0x002, 0;if bit is 1, do not +
+	INCF 0x003
+    RRNCF 0x002
+    INCF WREG;x++
+    CPFSEQ 0x005;x == 8 stop Do not back to Loop
+	GOTO Loop
+end
+
+

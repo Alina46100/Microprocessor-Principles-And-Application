@@ -1,0 +1,47 @@
+List p=18f4520 ;???PIC18F4520
+    ;???PIC18F
+    #include<p18f4520.inc>
+        CONFIG OSC = INTIO67
+        CONFIG WDT = OFF
+        org 0x00 ; ???0x00???????
+CLRF WREG
+CLRF 0x000
+CLRF 0x001
+CLRF 0x002
+CLRF 0x010
+CLRF 0x011
+CLRF 0x012
+CLRF 0x020
+MOVLW 0xAA
+MOVWF 0x020;initialize 
+MOVLW 0x11;user 0x000
+MOVWF 0x000
+MOVLW 0x12;user 0x001
+MOVWF 0x001
+ADDWF 0x000, W;w=0x001+0x000
+MOVWF 0x002
+MOVLW 0x2A;user 0x010
+MOVWF 0x010
+MOVLW 0x07;user 0x011
+MOVWF 0x011
+SUBWF 0x010, W
+MOVWF 0x012;w=0x010+0x011
+start:
+    CPFSEQ 0x002
+	GOTO NT
+EQ:
+    MOVLW  0xBB        ; ==
+	GOTO   SET_020     
+NT:
+    CPFSGT 0x002
+        GOTO LT
+GT:
+    MOVLW  0xAA        ; >
+	GOTO   SET_020     
+LT:
+    MOVLW  0xCC        ; <
+SET_020:
+    MOVWF 0x020
+end
+
+

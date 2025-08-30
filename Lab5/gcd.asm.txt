@@ -1,0 +1,66 @@
+#include "xc.inc"
+GLOBAL _gcd
+PSECT aytext,local,class=CODE,reloc=2
+
+_gcd:
+    MOVF 0x001, W          ; ?? a ???? W
+    MOVWF 0x011            
+    MOVF 0x002, W          
+    MOVWF 0x010            
+
+    MOVF 0x003, W          
+    MOVWF 0x013            
+    MOVF 0x004, W          
+    MOVWF 0x012            
+    
+    LOOP:
+    MOVF 0x012, W          
+    IORWF 0x013, W         
+    BZ EN           
+
+    
+    MO:
+    
+    MOVF 0x010, W          
+    CPFSEQ 0x012
+        GOTO NOTZERO
+    GOTO NEXT
+    NOTZERO:
+    CPFSGT 0x012
+	GOTO SUB    
+    GOTO CHANGE
+    NEXT:
+    MOVF 0x011, W          
+    CPFSGT 0x013
+	GOTO SUB      
+    GOTO CHANGE         
+
+SUB:
+    
+           
+    MOVF 0x013, W
+    SUBWF 0x011, 1 
+    MOVF 0x012, W
+    SUBWFB 0x010, 1  
+    GOTO LOOP        
+
+CHANGE:
+    MOVFF 0x010, 0x000
+    MOVFF 0x011, 0x001
+    MOVF 0x012, W
+    MOVWF 0x010            
+    MOVF 0x013, W
+    MOVWF 0x011            
+    MOVFF 0x000, 0x012
+    MOVFF 0x001, 0x013
+    GOTO LOOP         
+
+EN:
+    
+    MOVF 0x010, W          
+    MOVWF 0x002            
+    MOVF 0x011, W         
+    MOVWF 0x001         
+   RETURN
+
+

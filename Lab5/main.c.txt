@@ -1,0 +1,19 @@
+/*
+ * File:   main.c
+ * Author: angel
+ *
+ * Created on 2024?10?21?, ?? 12:10
+ */
+
+
+#include <xc.h>
+//extern unsigned char mysqrt(unsigned char a);
+//extern unsigned int gcd(unsigned int a, unsigned int b);
+extern unsigned int multi_signed(unsigned char a, unsigned char b);
+void main(void) {
+    //volatile unsigned int result = mysqrt(20);
+    //volatile unsigned int resultg = gcd(12321, 65535);
+    volatile unsigned int res = multi_signed(0, 100);
+    while(1);
+    return;
+}

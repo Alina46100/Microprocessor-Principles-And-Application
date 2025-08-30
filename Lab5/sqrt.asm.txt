@@ -1,0 +1,24 @@
+#include "xc.inc"
+GLOBAL _mysqrt
+PSECT aytext,local,class=CODE,reloc=2
+
+_mysqrt:
+    
+    ;MOVF 0x001, W
+    MOVWF 0x010
+    MOVLW 0x01
+    MOVWF 0x020
+    
+    LOOP:
+    MOVF 0x020, W
+    MULWF 0x020, 1
+    MOVFF PRODL, 0x021
+    MOVF 0x010, W
+    CPFSLT 0x021
+	GOTO E
+    INCF 0x020
+    GOTO LOOP
+    E:
+    MOVFF 0x020, 0x001
+    MOVF 0x001, W
+    RETURN

@@ -1,0 +1,45 @@
+#include "xc.inc"
+GLOBAL _multi_signed
+PSECT aytext,local,class=CODE,reloc=2
+
+_multi_signed:
+      MOVWF 0x011
+      MOVFF 0x001, 0x010
+      XORWF 0x010, 0
+      MOVWF 0x030
+      BTFSS 0x011, 7
+          GOTO NEXTPOSIT
+      COMF 0x011
+      INCF 0x011
+      NEXTPOSIT:
+      BTFSS 0x010, 7
+          GOTO POSIT
+      COMF 0x010
+      INCF 0x010
+      POSIT:
+      MOVF 0x011, W
+      CPFSEQ 0x050
+          GOTO NOTZER 
+      GOTO EN
+      NOTZER:
+      MOVF 0x010, W
+      ADDWF 0x021, 1
+      MOVF 0x050, W
+      ADDWFC 0x020, 1
+      DECFSZ 0x011
+          GOTO POSIT
+      GOTO E
+      E:
+      BTFSS 0x030, 7
+          GOTO EN
+      COMF 0x021
+      INCF 0x021
+      COMF 0x020
+      
+      
+      EN:
+      MOVFF 0x020, 0x002
+      MOVFF 0x021, 0x001
+   RETURN
+
+
